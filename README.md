@@ -1,0 +1,71 @@
+# ReservedCpuSets
+
+![program-screenshot.png](./img/program-screenshot.png)
+
+[![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/amitxv)
+
+This is an extension of the [WindowsIoT CSP Soft Real-Time Performance](https://learn.microsoft.com/en-us/windows/iot/iot-enterprise/soft-real-time/soft-real-time-device#use-mdm-bridge-wmi-provider-to-configure-the-windowsiot-csp) configuration and assumes you have read the documentation. ``SetRTCores`` essentially prevents interrupts and tasks from being scheduled on reserved cores so that you can isolate real-time applications from user and kernel-level disturbances. The setting is available on Windows 10 21H2+ according to the documentation.
+
+## Why a Seperate Program?
+
+This program aims to circumvent the limitations of the [PowerShell script](https://learn.microsoft.com/en-us/windows/iot/iot-enterprise/soft-real-time/soft-real-time-device#use-mdm-bridge-wmi-provider-to-configure-the-windowsiot-csp) in the documentation.
+
+1. Limited to reserving the last N consecutive cores
+
+2. Reverting the changes
+
+## How It Works
+
+Upon inspection of system changes while configuring ``SetRTCores`` to 11 with the PowerShell script, the registry key below was created. After a few minutes of reverse engineering, the explanation for the value is relatively simple (see examples).
+
+```
+[HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\kernel]
+"ReservedCpuSets"=hex(3):FE,0F,00,00,00,00,00,00
+```
+
+### Example 1
+
+``111111111110`` corresponds to the bitmask for reserving the last 11 cores on a 12 core system. Converting the bitmask to hexal little endian results in ``FFE``. Converting that value to hexal big endian results in ``FE0F``. Hence the registry value of ``FE,0F,00,00,00,00,00,00``.
+
+### Example 2
+
+``11100000`` corresponds to the bitmask for reserving the last 3 cores on a 8 core system. Converting the bitmask to hexal little endian results in ``E0``. Converting that value to hexal big endian results in ``E0``. Hence the registry value of ``E0,00,00,00,00,00,00,00``.
+
+---
+
+Since the registry value originates from an affinity bitmask, I have confirmed that it can be customized instead of the confiruation being limited to the last N consecutive cores. Below is an example of ``10101010``.
+
+![custom-bitmask.png](./img/custom-bitmask.png)
+
+## Reverting the Changes
+
+The documentation does not provide information as to how the value can be reverted to default. Since we are aware that a registry value is changed and does not exist by default, we can determine whether deleting the registry entry reflects in a local kernel debugger such as WinDbg by reading ``KiReservedcpusets``.
+
+### Default
+
+```
+Write-Host $obj.SetRTCores // 0
+
+lkd> dd KiReservedcpusets L1
+fffff807`216fdc10  00000000
+```
+
+### Setting SetRTCores to 3
+
+```
+Write-Host $obj.SetRTCores // 3
+
+lkd> dd KiReservedcpusets L1
+fffff807`216fdc10  000000e0
+```
+
+### Deleting the ``ReservedCpuSets`` registry entry
+
+```
+Write-Host $obj.SetRTCores // 0
+
+lkd> dd KiReservedcpusets L1
+fffff807`216fdc10  00000000
+```
+
+In the program, reverting the changes is equivalent to unchecking all CPUs then saving changes.
