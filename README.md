@@ -25,15 +25,13 @@ Upon inspection of system changes while configuring ``SetRTCores`` to 11 with th
 
 ### Example 1
 
-``111111111110`` corresponds to the bitmask for reserving the last 11 cores on a 12 core system. Converting the bitmask to hexal little endian results in ``FFE``. Converting that value to hexal big endian results in ``FE0F``. Hence the registry value of ``FE,0F,00,00,00,00,00,00``.
+``111111111110`` corresponds to the bitmask for reserving the last 11 cores on a 12 core system. Converting the bitmask to hexal little endian results in ``FFE``. Converting that value to hexal big endian results in ``FE0F``. Hence, the registry value of ``FE,0F,00,00,00,00,00,00``.
 
 ### Example 2
 
-``11100000`` corresponds to the bitmask for reserving the last 3 cores on a 8 core system. Converting the bitmask to hexal little endian results in ``E0``. Converting that value to hexal big endian results in ``E0``. Hence the registry value of ``E0,00,00,00,00,00,00,00``.
+``11100000`` corresponds to the bitmask for reserving the last 3 cores on an 8 core system. Converting the bitmask to hexal little endian results in ``E0``. Converting that value to hexal big endian results in ``E0``. Hence, the registry value of ``E0,00,00,00,00,00,00,00``.
 
----
-
-Since the registry value originates from an affinity bitmask, I have confirmed that it can be customized instead of the confiruation being limited to the last N consecutive cores. Below is an example of ``10101010``.
+Since the registry value originates from an affinity bitmask, I have confirmed that it can be customized instead of the configuration being limited to the last N consecutive cores. Below is an example of ``10101010``.
 
 ![custom-bitmask.png](./img/custom-bitmask.png)
 
