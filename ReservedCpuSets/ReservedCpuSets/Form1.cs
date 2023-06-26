@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace ReservedCpuSets {
@@ -19,7 +20,6 @@ namespace ReservedCpuSets {
             }
 
             return true;
-
         }
 
         private void CheckAllCPUs(bool isChecked) {
@@ -32,6 +32,26 @@ namespace ReservedCpuSets {
             for (int i = 0; i < Environment.ProcessorCount; i++) {
                 cpuListBox.Items.Add($"CPU {i}");
             }
+
+            // load current configuration into the program
+
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(kernel_key)) {
+                try {
+                    byte[] current_config = key.GetValue("ReservedCpuSets") as byte[];
+                    Array.Reverse(current_config); // big to little endian
+                    // convert to binary
+                    string bitmask = string.Join("", current_config.Select(b => Convert.ToString(b, 2).PadLeft(8, '0')));
+
+                    int last_bit_index = bitmask.Length - 1;
+
+                    for (int i = 0; i < Environment.ProcessorCount; i++) {
+                        cpuListBox.SetItemChecked(i, bitmask[last_bit_index - i] == '1');
+                    }
+                } catch (System.ArgumentException) {
+                    // ignore error if the key does not exist
+                }
+            }
+
         }
 
         private void button1_Click(object sender, EventArgs e) {
@@ -51,7 +71,7 @@ namespace ReservedCpuSets {
                 using (RegistryKey key = Registry.LocalMachine.OpenSubKey(kernel_key, true)) {
                     try {
                         key.DeleteValue("ReservedCpuSets");
-                    } catch (System.ArgumentException) { 
+                    } catch (System.ArgumentException) {
                         // ignore error if the key does not exist
                     }
                 }
