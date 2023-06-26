@@ -39,8 +39,10 @@
             // cpuListBox
             // 
             this.cpuListBox.CheckOnClick = true;
+            this.cpuListBox.ColumnWidth = 92;
             this.cpuListBox.FormattingEnabled = true;
             this.cpuListBox.Location = new System.Drawing.Point(12, 50);
+            this.cpuListBox.MultiColumn = true;
             this.cpuListBox.Name = "cpuListBox";
             this.cpuListBox.Size = new System.Drawing.Size(260, 154);
             this.cpuListBox.TabIndex = 0;
