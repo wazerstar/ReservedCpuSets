@@ -104,5 +104,16 @@ namespace ReservedCpuSets {
         private void uncheckAll_Click(object sender, EventArgs e) {
             CheckAllCPUs(false);
         }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
+            Application.Exit();
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
+            About about = new About();
+            about.StartPosition = FormStartPosition.Manual;
+            about.Location = this.Location;
+            about.Show();
+        }
     }
 }
