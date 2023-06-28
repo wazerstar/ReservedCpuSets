@@ -6,7 +6,11 @@
 
 This is an extension of the [WindowsIoT CSP Soft Real-Time Performance](https://learn.microsoft.com/en-us/windows/iot/iot-enterprise/soft-real-time/soft-real-time-device#use-mdm-bridge-wmi-provider-to-configure-the-windowsiot-csp) configuration and assumes you have read the documentation. ``SetRTCores`` essentially prevents interrupts and tasks from being scheduled on reserved cores so that you can isolate real-time applications from user and kernel-level disturbances. The setting is available on Windows 10 21H2+ according to the documentation.
 
-## Why a Seperate Program?
+## Verify the Configuration
+
+To verify whether the configuration is working as expected, you can assess per-core usage while placing load on the CPU with a program such as [CpuStres](https://learn.microsoft.com/en-us/sysinternals/downloads/cpustres). The reserved cores should be underutilized compared to the unreserved cores.
+
+## Why a Separate Program?
 
 This program aims to circumvent the limitations of the [PowerShell script](https://learn.microsoft.com/en-us/windows/iot/iot-enterprise/soft-real-time/soft-real-time-device#use-mdm-bridge-wmi-provider-to-configure-the-windowsiot-csp) in the documentation.
 
