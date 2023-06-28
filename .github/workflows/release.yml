@@ -18,10 +18,20 @@ jobs:
       - name: Build executable
         run: |
           MSBuild.exe .\ReservedCpuSets\ReservedCpuSets.sln -p:Configuration=Release -p:Platform=x64
+          MSBuild.exe .\ReservedCpuSetsDLL\ReservedCpuSets.sln -p:Configuration=Release -p:Platform=x64
+
+      - name: Create folder structure
+        run: |
+          mkdir release\ReservedCpuSets
+          move .\ReservedCpuSets\ReservedCpuSets\bin\x64\Release\ReservedCpuSets.exe release\ReservedCpuSets
+          move .\ReservedCpuSetsDLL\x64\Release\ReservedCpuSets.dll release\ReservedCpuSets
+
+      - name: Zip limit-nvpstate
+        run: Compress-Archive -Path release\ReservedCpuSets -DestinationPath ReservedCpuSets.zip
 
       - name: Upload to release
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
-          files: ./ReservedCpuSets/ReservedCpuSets/bin/x64/Release/ReservedCpuSets.exe
+          files: ReservedCpuSets.zip

@@ -4,19 +4,31 @@
 
 [![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/amitxv)
 
-This is an extension of the [WindowsIoT CSP Soft Real-Time Performance](https://learn.microsoft.com/en-us/windows/iot/iot-enterprise/soft-real-time/soft-real-time-device#use-mdm-bridge-wmi-provider-to-configure-the-windowsiot-csp) configuration and assumes you have read the documentation. ``SetRTCores`` essentially prevents interrupts and tasks from being scheduled on reserved cores so that you can isolate real-time applications from user and kernel-level disturbances. The setting is available on Windows 10 21H2+ according to the documentation.
+This is an extension of the [WindowsIoT CSP Soft Real-Time Performance](https://learn.microsoft.com/en-us/windows/iot/iot-enterprise/soft-real-time/soft-real-time-device#use-mdm-bridge-wmi-provider-to-configure-the-windowsiot-csp) configuration and assumes you have read the documentation. ``SetRTCores`` essentially prevents interrupts and tasks from being scheduled on reserved cores so that you can isolate real-time applications from user and kernel-level disturbances.
 
-## Verify the Configuration
+## Usage
 
-To verify whether the configuration is working as expected, you can assess per-core usage while placing load on the CPU with a program such as [CpuStres](https://learn.microsoft.com/en-us/sysinternals/downloads/cpustres). The reserved cores should be underutilized compared to the unreserved cores.
+- Launch the program and select the CPUs you wish to reserve and save changes. The changes are made in real-time
+
+- Verify whether the configuration is working as expected by assessing per-core usage while placing load on the CPU with a program such as [CpuStres](https://learn.microsoft.com/en-us/sysinternals/downloads/cpustres). The reserved cores should be underutilized compared to the unreserved cores
+
+- Adding support for Windows 21H1 involves applying the configuration on a per-boot basis. Place the binary somewhere safe and create a shortcut in ``shell:startup`` with the target below. This is not required for Windows 21H2+
+
+    ```
+    C:\ReservedCpuSets\ReservedCpuSets.exe --load-cpusets
+    ```
 
 ## Why a Separate Program?
 
-This program aims to circumvent the limitations of the [PowerShell script](https://learn.microsoft.com/en-us/windows/iot/iot-enterprise/soft-real-time/soft-real-time-device#use-mdm-bridge-wmi-provider-to-configure-the-windowsiot-csp) in the documentation.
+This program aims to circumvent the limitations of the [PowerShell script](https://learn.microsoft.com/en-us/windows/iot/iot-enterprise/soft-real-time/soft-real-time-device#use-mdm-bridge-wmi-provider-to-configure-the-windowsiot-csp) in the documentation by:
 
-1. Limited to reserving the last N consecutive cores
+1. Allowing customization of the bitmask instead of the configuration being limited to reserving the last N consecutive cores
 
-2. Reverting the changes
+2. Revert the changes
+
+3. Adding support for all Windows 10 versions
+
+4. Applying changes in real-time
 
 ## How It Works
 
@@ -26,6 +38,8 @@ Upon inspection of system changes while configuring ``SetRTCores`` to 11 with th
 [HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\kernel]
 "ReservedCpuSets"=hex(3):FE,0F,00,00,00,00,00,00
 ```
+
+Adding support for all Windows 10 versions involves utilizing [NtSetSystemInformation](https://learn.microsoft.com/en-us/windows/win32/sysinfo/ntsetsysteminformation) as demonstrated in [CpuSet](https://github.com/zodiacon/WindowsInternals/tree/master/CpuSet) from Windows Internals.
 
 ### Example 1
 
