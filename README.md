@@ -12,7 +12,7 @@ This is an extension of the [WindowsIoT CSP Soft Real-Time Performance](https://
 
 - Verify whether the configuration is working as expected by assessing per-core usage while placing load on the CPU with a program such as [CpuStres](https://learn.microsoft.com/en-us/sysinternals/downloads/cpustres). The reserved cores should be underutilized compared to the unreserved cores
 
-- Adding support for Windows 21H1 involves applying the configuration on a per-boot basis. Place the binary somewhere safe and create a shortcut in ``shell:startup`` with the target below. This is not required for Windows 21H2+
+- The changes persist even after a reboot on Windows 10 21H2+ so no further steps are required. Adding support for earlier versions of Windows 10 involves applying the configuration on a per-boot basis. Place the binary somewhere safe and create a shortcut in ``shell:startup`` with the target below. Once again, this is not required for Windows 10 21H2+
 
     ```
     C:\ReservedCpuSets\ReservedCpuSets.exe --load-cpusets
