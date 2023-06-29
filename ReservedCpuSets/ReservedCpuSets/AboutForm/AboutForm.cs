@@ -2,8 +2,8 @@
 using System.Windows.Forms;
 
 namespace ReservedCpuSets {
-    public partial class About : Form {
-        public About() {
+    public partial class AboutForm : Form {
+        public AboutForm() {
             InitializeComponent();
         }
 

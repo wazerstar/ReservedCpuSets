@@ -31,13 +31,13 @@ namespace ReservedCpuSets
             string[] args = Environment.GetCommandLineArgs();
 
             if (args.Length > 1 && args[1] == "--load-cpusets") {
-                Form1.LoadCpuSet();
+                MainForm.LoadCpuSet();
                 Environment.Exit(0);
             }
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new MainForm());
         }
     }
 }

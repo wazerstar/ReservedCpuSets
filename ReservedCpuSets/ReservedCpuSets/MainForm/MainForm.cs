@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace ReservedCpuSets {
-    public partial class Form1 : Form {
+    public partial class MainForm : Form {
 
         [DllImport("ReservedCpuSets.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int SetSystemCpuSet(int mask);
@@ -61,7 +61,7 @@ namespace ReservedCpuSets {
             }
         }
 
-        public Form1() {
+        public MainForm() {
             InitializeComponent();
         }
 
@@ -142,7 +142,7 @@ namespace ReservedCpuSets {
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
-            About about = new About();
+            AboutForm about = new AboutForm();
             about.StartPosition = FormStartPosition.Manual;
             about.Location = this.Location;
             about.Show();

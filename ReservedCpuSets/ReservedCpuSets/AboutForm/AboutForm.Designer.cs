@@ -1,5 +1,5 @@
 ﻿namespace ReservedCpuSets {
-    partial class About {
+    partial class AboutForm {
         /// <summary>
         /// Required designer variable.
         /// </summary>
