@@ -10,7 +10,7 @@ namespace ReservedCpuSets {
         [DllImport("ReservedCpuSets.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int SetSystemCpuSet(int mask);
 
-        readonly static string kernel_key = "SYSTEM\\CurrentControlSet\\Control\\Session Manager\\kernel";
+        private static readonly string kernel_key = "SYSTEM\\CurrentControlSet\\Control\\Session Manager\\kernel";
 
         public static void LoadCpuSet() {
             string bitmask = GetReservedCpuSets();
@@ -40,7 +40,7 @@ namespace ReservedCpuSets {
             }
 
             if (SetSystemCpuSet(system_affinity) != 0) {
-                MessageBox.Show("Failed to apply system-wide CPU set", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _ = MessageBox.Show("Failed to apply system-wide CPU set", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(1);
             }
         }
@@ -55,7 +55,7 @@ namespace ReservedCpuSets {
 
                     // sterilize string and ensure it is length of core count
                     return bitmask.TrimStart('0').PadLeft(Environment.ProcessorCount, '0');
-                } catch (System.ArgumentException) {
+                } catch (ArgumentException) {
                     return "";
                 }
             }
@@ -83,7 +83,7 @@ namespace ReservedCpuSets {
 
         private void Form1_Load(object sender, EventArgs e) {
             for (int i = 0; i < Environment.ProcessorCount; i++) {
-                cpuListBox.Items.Add($"CPU {i}");
+                _ = cpuListBox.Items.Add($"CPU {i}");
             }
 
             // load current configuration into the program
@@ -99,9 +99,9 @@ namespace ReservedCpuSets {
             }
         }
 
-        private void button1_Click(object sender, EventArgs e) {
+        private void Button1_Click(object sender, EventArgs e) {
             if (IsAllCPUsChecked()) {
-                MessageBox.Show("At least one CPU must be unreserved", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _ = MessageBox.Show("At least one CPU must be unreserved", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -123,28 +123,29 @@ namespace ReservedCpuSets {
             Environment.Exit(0);
         }
 
-        private void invertSelection_Click(object sender, EventArgs e) {
+        private void InvertSelection_Click(object sender, EventArgs e) {
             for (int i = 0; i < cpuListBox.Items.Count; i++) {
                 cpuListBox.SetItemChecked(i, !cpuListBox.GetItemChecked(i));
             }
         }
 
-        private void checkAll_Click(object sender, EventArgs e) {
+        private void CheckAll_Click(object sender, EventArgs e) {
             CheckAllCPUs(true);
         }
 
-        private void uncheckAll_Click(object sender, EventArgs e) {
+        private void UncheckAll_Click(object sender, EventArgs e) {
             CheckAllCPUs(false);
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e) {
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e) {
             Application.Exit();
         }
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e) {
-            AboutForm about = new AboutForm();
-            about.StartPosition = FormStartPosition.Manual;
-            about.Location = this.Location;
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e) {
+            AboutForm about = new AboutForm {
+                StartPosition = FormStartPosition.Manual,
+                Location = Location
+            };
             about.Show();
         }
     }

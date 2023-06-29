@@ -70,7 +70,7 @@
             this.button1.TabIndex = 2;
             this.button1.Text = "OK";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // invertSelection
             // 
@@ -80,7 +80,7 @@
             this.invertSelection.TabIndex = 4;
             this.invertSelection.Text = "Invert Selection";
             this.invertSelection.UseVisualStyleBackColor = true;
-            this.invertSelection.Click += new System.EventHandler(this.invertSelection_Click);
+            this.invertSelection.Click += new System.EventHandler(this.InvertSelection_Click);
             // 
             // checkAll
             // 
@@ -90,7 +90,7 @@
             this.checkAll.TabIndex = 5;
             this.checkAll.Text = "Select All";
             this.checkAll.UseVisualStyleBackColor = true;
-            this.checkAll.Click += new System.EventHandler(this.checkAll_Click);
+            this.checkAll.Click += new System.EventHandler(this.CheckAll_Click);
             // 
             // uncheckAll
             // 
@@ -100,7 +100,7 @@
             this.uncheckAll.TabIndex = 6;
             this.uncheckAll.Text = "Clear Selection";
             this.uncheckAll.UseVisualStyleBackColor = true;
-            this.uncheckAll.Click += new System.EventHandler(this.uncheckAll_Click);
+            this.uncheckAll.Click += new System.EventHandler(this.UncheckAll_Click);
             // 
             // menuStrip1
             // 
@@ -126,7 +126,7 @@
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(93, 22);
             this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -141,7 +141,7 @@
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
             // Form1
             // 

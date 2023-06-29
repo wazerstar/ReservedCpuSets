@@ -7,8 +7,8 @@ namespace ReservedCpuSets {
             InitializeComponent();
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
-            Process.Start("https://github.com/amitxv");
+        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e) {
+            _ = Process.Start("https://github.com/amitxv");
         }
     }
 }
