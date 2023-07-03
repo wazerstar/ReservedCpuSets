@@ -30,7 +30,7 @@
         {
             this.cpuListBox = new System.Windows.Forms.CheckedListBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.saveButton = new System.Windows.Forms.Button();
             this.invertSelection = new System.Windows.Forms.Button();
             this.checkAll = new System.Windows.Forms.Button();
             this.uncheckAll = new System.Windows.Forms.Button();
@@ -63,15 +63,15 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "The reserved CPUs setting controls which CPUs\r\n not to schedule tasks on";
             // 
-            // button1
+            // saveButton
             // 
-            this.button1.Location = new System.Drawing.Point(12, 280);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(260, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "OK";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.Button1_Click);
+            this.saveButton.Location = new System.Drawing.Point(12, 280);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(260, 23);
+            this.saveButton.TabIndex = 2;
+            this.saveButton.Text = "OK";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
             // invertSelection
             // 
@@ -161,7 +161,7 @@
             this.Controls.Add(this.uncheckAll);
             this.Controls.Add(this.checkAll);
             this.Controls.Add(this.invertSelection);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.saveButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.cpuListBox);
             this.Controls.Add(this.menuStrip1);
@@ -171,7 +171,7 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ReservedCpuSets";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -183,7 +183,7 @@
 
         private System.Windows.Forms.CheckedListBox cpuListBox;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button invertSelection;
         private System.Windows.Forms.Button checkAll;
         private System.Windows.Forms.Button uncheckAll;

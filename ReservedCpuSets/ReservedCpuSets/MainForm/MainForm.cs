@@ -48,7 +48,7 @@ namespace ReservedCpuSets {
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e) {
+        private void MainForm_Load(object sender, EventArgs e) {
             for (int i = 0; i < Environment.ProcessorCount; i++) {
                 _ = cpuListBox.Items.Add($"CPU {i}");
             }
@@ -77,7 +77,7 @@ namespace ReservedCpuSets {
             }
         }
 
-        private void Button1_Click(object sender, EventArgs e) {
+        private void SaveButton_Click(object sender, EventArgs e) {
             if (IsAllCPUsChecked()) {
                 _ = MessageBox.Show("At least one CPU must be unreserved", "ReservedCpuSets", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
