@@ -16,11 +16,7 @@ namespace ReservedCpuSets {
 
         private delegate int SetSystemCpuSetDelegate(int mask);
 
-        private static int GetWindowsBuildNumber() {
-            using (RegistryKey key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion")) {
-                return int.Parse(key.GetValue("CurrentBuildNumber") as string);
-            }
-        }
+
 
         private static int LoadCpuSet() {
             // need to check whether it is empty
@@ -38,14 +34,14 @@ namespace ReservedCpuSets {
             IntPtr module_handle = LoadLibrary("ReservedCpuSets.dll");
 
             if (module_handle == IntPtr.Zero) {
-                _ = MessageBox.Show("Failed to apply changes. Could not load ReservedCpuSets.dll", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _ = MessageBox.Show("Failed to apply changes. Could not load ReservedCpuSets.dll", "ReservedCpuSets", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return 1;
             }
 
             IntPtr func_ptr = GetProcAddress(module_handle, "SetSystemCpuSet");
 
             if (func_ptr == IntPtr.Zero) {
-                _ = MessageBox.Show("Failed to apply changes. GetProcAddress Failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _ = MessageBox.Show("Failed to apply changes. GetProcAddress Failed", "ReservedCpuSets", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return 1;
             }
 
@@ -53,7 +49,7 @@ namespace ReservedCpuSets {
 
             // all CPUs = 0 rather than all bits set to 1
             if (SetSystemCpuSet(Convert.ToInt32(bitmask) == 0 ? 0 : system_affinity) != 0) {
-                _ = MessageBox.Show("Failed to apply changes. Could not apply system-wide CPU set", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _ = MessageBox.Show("Failed to apply changes. Could not apply system-wide CPU set", "ReservedCpuSets", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return 1;
             }
 
@@ -65,8 +61,8 @@ namespace ReservedCpuSets {
         [STAThread]
         private static void Main() {
             // 10240 is Windows 10 version 1507
-            if (GetWindowsBuildNumber() < 10240) {
-                _ = MessageBox.Show("ReservedCpuSets supports Windows 10 and above only", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (SharedFunctions.GetWindowsBuildNumber() < 10240) {
+                _ = MessageBox.Show("ReservedCpuSets supports Windows 10 and above only", "ReservedCpuSets", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Environment.Exit(1);
             }
 

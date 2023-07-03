@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace ReservedCpuSets {
@@ -7,6 +8,28 @@ namespace ReservedCpuSets {
 
         public MainForm() {
             InitializeComponent();
+        }
+
+        private bool IsAddedToStartup() {
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run")) {
+                return key.GetValue("ReservedCpuSets") != null;
+            }
+        }
+
+        private void AddToStartup(bool is_enabled) {
+            Assembly entry_assembly = Assembly.GetEntryAssembly();
+
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true)) {
+                if (is_enabled) {
+                    key.SetValue("ReservedCpuSets", $"\"{entry_assembly.Location}\" --load-cpusets");
+                } else {
+                    try {
+                        key.DeleteValue("ReservedCpuSets");
+                    } catch (ArgumentException) {
+                        // ignore error if the key does not exist
+                    }
+                }
+            }
         }
 
         private bool IsAllCPUsChecked() {
@@ -39,11 +62,24 @@ namespace ReservedCpuSets {
             for (int i = 0; i < Environment.ProcessorCount; i++) {
                 cpuListBox.SetItemChecked(i, bitmask[last_bit_index - i] == '1');
             }
+
+            if (SharedFunctions.GetWindowsBuildNumber() > 19044) {
+                addToStartup.Enabled = false;
+                addToStartup.ToolTipText = "Configuration does not need to be applied\non a per-boot basis on 21H2+";
+            }
+
+            // check if program is set to run at startup
+            addToStartup.Checked = IsAddedToStartup();
+
+            // 19044 is Windows 10 version 21H2
+            if (!IsAddedToStartup() && SharedFunctions.GetWindowsBuildNumber() < 19044) {
+                _ = MessageBox.Show("On 21H1 and below, the configuration must be applied on a per-boot basis.\nPlace the program somewhere safe and enable \"Add To Startup\" in the File menu", "ReservedCpuSets", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void Button1_Click(object sender, EventArgs e) {
             if (IsAllCPUsChecked()) {
-                _ = MessageBox.Show("At least one CPU must be unreserved", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _ = MessageBox.Show("At least one CPU must be unreserved", "ReservedCpuSets", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -99,6 +135,10 @@ namespace ReservedCpuSets {
                 Location = Location
             };
             about.Show();
+        }
+
+        private void AddToStartup_Click(object sender, EventArgs e) {
+            AddToStartup(addToStartup.Checked);
         }
     }
 }

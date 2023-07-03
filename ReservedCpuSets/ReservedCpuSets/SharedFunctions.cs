@@ -4,6 +4,12 @@ using System.Linq;
 
 namespace ReservedCpuSets {
     internal class SharedFunctions {
+        public static int GetWindowsBuildNumber() {
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion")) {
+                return int.Parse(key.GetValue("CurrentBuildNumber") as string);
+            }
+        }
+
         public static string GetReservedCpuSets() {
             string bitmask;
 
