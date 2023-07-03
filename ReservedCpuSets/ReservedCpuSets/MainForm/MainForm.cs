@@ -1,65 +1,9 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace ReservedCpuSets {
     public partial class MainForm : Form {
-
-        [DllImport("ReservedCpuSets.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int SetSystemCpuSet(int mask);
-
-        private static readonly string kernel_key = "SYSTEM\\CurrentControlSet\\Control\\Session Manager\\kernel";
-
-        public static void LoadCpuSet() {
-            string bitmask = GetReservedCpuSets();
-            int affinity = Convert.ToInt32(bitmask);
-            int system_affinity;
-
-            if (affinity == 0) {
-                system_affinity = 0; // reset to default
-
-                // all CPUs unreserved correspond to the registry key being deleted
-                using (RegistryKey key = Registry.LocalMachine.OpenSubKey(kernel_key, true)) {
-                    try {
-                        key.DeleteValue("ReservedCpuSets");
-                    } catch (ArgumentException) {
-                        // ignore error if the key does not exist
-                    }
-                }
-            } else {
-                // bitmask must be inverted because the logic is flipped
-                string inverted_system_bitmask = "";
-
-                for (int i = 0; i < bitmask.Length; i++) {
-                    inverted_system_bitmask += bitmask[i] == '0' ? 1 : 0;
-                }
-
-                system_affinity = Convert.ToInt32(inverted_system_bitmask, 2);
-            }
-
-            if (SetSystemCpuSet(system_affinity) != 0) {
-                _ = MessageBox.Show("Failed to apply system-wide CPU set", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Environment.Exit(1);
-            }
-        }
-
-        private static string GetReservedCpuSets() {
-            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(kernel_key)) {
-                try {
-                    byte[] current_config = key.GetValue("ReservedCpuSets") as byte[];
-                    Array.Reverse(current_config); // big to little endian
-                    // convert to binary
-                    string bitmask = string.Join("", current_config.Select(b => Convert.ToString(b, 2)));
-
-                    // sterilize string and ensure it is length of core count
-                    return bitmask.TrimStart('0').PadLeft(Environment.ProcessorCount, '0');
-                } catch (ArgumentException) {
-                    return "";
-                }
-            }
-        }
 
         public MainForm() {
             InitializeComponent();
@@ -88,14 +32,12 @@ namespace ReservedCpuSets {
 
             // load current configuration into the program
 
-            string bitmask = GetReservedCpuSets();
+            string bitmask = SharedFunctions.GetReservedCpuSets();
 
-            if (bitmask != "") {
-                int last_bit_index = bitmask.Length - 1;
+            int last_bit_index = bitmask.Length - 1;
 
-                for (int i = 0; i < Environment.ProcessorCount; i++) {
-                    cpuListBox.SetItemChecked(i, bitmask[last_bit_index - i] == '1');
-                }
+            for (int i = 0; i < Environment.ProcessorCount; i++) {
+                cpuListBox.SetItemChecked(i, bitmask[last_bit_index - i] == '1');
             }
         }
 
@@ -111,15 +53,25 @@ namespace ReservedCpuSets {
                 affinity |= 1 << i;
             }
 
-            byte[] bytes = BitConverter.GetBytes(affinity);
-            byte[] padded_bytes = new byte[8];
-            Array.Copy(bytes, 0, padded_bytes, 0, bytes.Length);
+            if (affinity == 0) {
+                // all CPUs unreserved correspond to the registry key being deleted
+                using (RegistryKey key = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Control\\Session Manager\\kernel", true)) {
+                    try {
+                        key.DeleteValue("ReservedCpuSets");
+                    } catch (ArgumentException) {
+                        // ignore error if the key does not exist
+                    }
+                }
+            } else {
+                byte[] bytes = BitConverter.GetBytes(affinity);
+                byte[] padded_bytes = new byte[8];
+                Array.Copy(bytes, 0, padded_bytes, 0, bytes.Length);
 
-            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(kernel_key, true)) {
-                key.SetValue("ReservedCpuSets", padded_bytes, RegistryValueKind.Binary);
+                using (RegistryKey key = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Control\\Session Manager\\kernel", true)) {
+                    key.SetValue("ReservedCpuSets", padded_bytes, RegistryValueKind.Binary);
+                }
             }
 
-            LoadCpuSet();
             Environment.Exit(0);
         }
 

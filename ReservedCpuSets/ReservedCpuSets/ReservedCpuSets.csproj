@@ -63,6 +63,7 @@
     <Compile Include="AboutForm\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SharedFunctions.cs" />
     <Compile Include="MainForm\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

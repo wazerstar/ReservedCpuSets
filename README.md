@@ -8,15 +8,15 @@ This is an extension of the [WindowsIoT CSP Soft Real-Time Performance](https://
 
 ## Usage
 
-- Launch the program and select the CPUs you wish to reserve and save changes. The changes are made in real-time
+- Launch the program and select the CPUs you wish to reserve and save changes
 
-- Verify whether the configuration is working as expected by assessing per-core usage while placing load on the CPU with a program such as [CpuStres](https://learn.microsoft.com/en-us/sysinternals/downloads/cpustres). The reserved cores should be underutilized compared to the unreserved cores
-
-- The changes persist even after a reboot on Windows 10 21H2+ so no further steps are required. Adding support for earlier versions of Windows 10 involves applying the configuration on a per-boot basis. Place the binary somewhere safe and create a shortcut in ``shell:startup`` with the target below. Once again, this is not required for Windows 10 21H2+
+- The changes persist even after a reboot on Windows 10 21H2+. Adding support for earlier versions of Windows 10 involves applying the configuration on a per-boot basis. Place the binary somewhere safe and create a shortcut in ``shell:startup`` with the target below. Once again, this is not required for Windows 10 21H2+
 
     ```
     C:\ReservedCpuSets\ReservedCpuSets.exe --load-cpusets
     ```
+
+- After a restart, verify whether the configuration is working as expected by assessing per-core usage while placing load on the CPU with a program such as [CpuStres](https://learn.microsoft.com/en-us/sysinternals/downloads/cpustres). The reserved cores should be underutilized compared to the unreserved cores
 
 ## Why a Separate Program?
 
@@ -28,7 +28,7 @@ This program aims to circumvent the limitations of the [PowerShell script](https
 
 3. Adding support for all Windows 10 versions
 
-4. Applying changes in real-time
+4. Optionally applying changes in real-time with ``--load-cpusets``
 
 ## How It Works
 
