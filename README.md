@@ -26,7 +26,7 @@ This program aims to circumvent the limitations of the [PowerShell script](https
 
 2. Revert the changes
 
-3. Adding support for all Windows 10 versions
+3. Adding support for earlier Windows 10 versions
 
 ## How It Works
 
@@ -37,7 +37,7 @@ Upon inspection of system changes while configuring ``SetRTCores`` to 11 with th
 "ReservedCpuSets"=hex(3):FE,0F,00,00,00,00,00,00
 ```
 
-Adding support for all Windows 10 versions involves utilizing [NtSetSystemInformation](https://learn.microsoft.com/en-us/windows/win32/sysinfo/ntsetsysteminformation) as demonstrated in [CpuSet](https://github.com/zodiacon/WindowsInternals/tree/master/CpuSet) from Windows Internals.
+Adding support for earlier versions of Windows 10 involves utilizing [NtSetSystemInformation](https://learn.microsoft.com/en-us/windows/win32/sysinfo/ntsetsysteminformation) as demonstrated in [CpuSet](https://github.com/zodiacon/WindowsInternals/tree/master/CpuSet) from Windows Internals.
 
 ### Example 1
 
