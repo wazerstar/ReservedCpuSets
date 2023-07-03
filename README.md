@@ -28,8 +28,6 @@ This program aims to circumvent the limitations of the [PowerShell script](https
 
 3. Adding support for all Windows 10 versions
 
-4. Optionally applying changes in real-time with ``--load-cpusets``
-
 ## How It Works
 
 Upon inspection of system changes while configuring ``SetRTCores`` to 11 with the PowerShell script, the registry key below was created. After a few minutes of reverse engineering, the explanation for the value is relatively simple (see examples).
