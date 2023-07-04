@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -16,10 +15,7 @@ namespace ReservedCpuSets {
 
         private delegate int SetSystemCpuSetDelegate(int mask);
 
-
-
         private static int LoadCpuSet() {
-            // need to check whether it is empty
             string bitmask = SharedFunctions.GetReservedCpuSets();
 
             // bitmask must be inverted because the logic is flipped
