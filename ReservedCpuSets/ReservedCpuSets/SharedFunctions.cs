@@ -1,6 +1,5 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Linq;
 
 namespace ReservedCpuSets {
     internal class SharedFunctions {
@@ -17,8 +16,9 @@ namespace ReservedCpuSets {
                 try {
                     byte[] current_config = key.GetValue("ReservedCpuSets") as byte[];
                     Array.Reverse(current_config); // big to little endian
+                    string hex_string = BitConverter.ToString(current_config).Replace("-", "");
                     // convert to binary
-                    bitmask = string.Join("", current_config.Select(b => Convert.ToString(b, 2)));
+                    bitmask = Convert.ToString(Convert.ToInt32(hex_string, 16), 2);
                 } catch (ArgumentException) {
                     bitmask = "";
                 }
