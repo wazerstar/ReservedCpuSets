@@ -21,7 +21,7 @@ namespace ReservedCpuSets {
 
             using (RegistryKey key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true)) {
                 if (is_enabled) {
-                    key.SetValue("ReservedCpuSets", $"\"{entry_assembly.Location}\" --load-cpusets");
+                    key.SetValue("ReservedCpuSets", $"\"{entry_assembly.Location}\" --load-cpusets --timeout 10");
                 } else {
                     try {
                         key.DeleteValue("ReservedCpuSets");

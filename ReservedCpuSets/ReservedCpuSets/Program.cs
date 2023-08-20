@@ -1,8 +1,18 @@
-﻿using System;
+﻿using CommandLine;
+using System;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace ReservedCpuSets {
+    public class Options {
+        [Option("timeout")]
+        public int Timeout { get; set; }
+
+        [Option("load-cpusets")]
+        public bool LoadCpuSets { get; set; }
+    }
+
     internal static class Program {
         [DllImport("kernel32.dll")]
         private static extern IntPtr LoadLibrary(string lpLibFileName);
@@ -62,13 +72,13 @@ namespace ReservedCpuSets {
                 Environment.Exit(1);
             }
 
-            // TODO: parse args properly
+            _ = Parser.Default.ParseArguments<Options>(Environment.GetCommandLineArgs()).WithParsed(o => {
+                if (o.LoadCpuSets) {
+                    Thread.Sleep(o.Timeout * 1000);
+                    Environment.Exit(LoadCpuSet());
+                }
+            });
 
-            string[] args = Environment.GetCommandLineArgs();
-
-            if (args.Length > 1 && args[1] == "--load-cpusets") {
-                Environment.Exit(LoadCpuSet());
-            }
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
