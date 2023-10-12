@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -51,7 +52,9 @@ namespace ReservedCpuSets {
                 return 1;
             }
 
+#pragma warning disable IDE1006 // Naming Styles
             SetSystemCpuSetDelegate SetSystemCpuSet = Marshal.GetDelegateForFunctionPointer<SetSystemCpuSetDelegate>(func_ptr);
+#pragma warning restore IDE1006 // Naming Styles
 
             // all CPUs = 0 rather than all bits set to 1
             if (SetSystemCpuSet(Convert.ToInt32(bitmask) == 0 ? 0 : system_affinity) != 0) {
