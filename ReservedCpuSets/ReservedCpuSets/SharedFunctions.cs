@@ -5,7 +5,7 @@ using System;
 namespace ReservedCpuSets {
     internal class SharedFunctions {
         public static int GetWindowsBuildNumber() {
-            using (RegistryKey key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion")) {
+            using (var key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion")) {
                 return int.Parse(key.GetValue("CurrentBuildNumber") as string);
             }
         }
@@ -13,13 +13,13 @@ namespace ReservedCpuSets {
         public static string GetReservedCpuSets() {
             string bitmask;
 
-            using (RegistryKey key = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Control\\Session Manager\\kernel")) {
+            using (var key = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Control\\Session Manager\\kernel")) {
                 try {
-                    byte[] current_config = key.GetValue("ReservedCpuSets") as byte[];
-                    Array.Reverse(current_config); // big to little endian
-                    string hex_string = BitConverter.ToString(current_config).Replace("-", "");
+                    var currentConfig = key.GetValue("ReservedCpuSets") as byte[];
+                    Array.Reverse(currentConfig); // big to little endian
+                    var hexString = BitConverter.ToString(currentConfig).Replace("-", "");
                     // convert to binary
-                    bitmask = Convert.ToString(Convert.ToInt32(hex_string, 16), 2);
+                    bitmask = Convert.ToString(Convert.ToInt32(hexString, 16), 2);
                 } catch (ArgumentException) {
                     bitmask = "";
                 }

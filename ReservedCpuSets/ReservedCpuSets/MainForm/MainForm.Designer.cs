@@ -71,7 +71,7 @@
             this.saveButton.TabIndex = 2;
             this.saveButton.Text = "OK";
             this.saveButton.UseVisualStyleBackColor = true;
-            this.saveButton.Click += new System.EventHandler(this.SaveButton_Click);
+            this.saveButton.Click += new System.EventHandler(this.SaveButtonClick);
             // 
             // invertSelection
             // 
@@ -81,7 +81,7 @@
             this.invertSelection.TabIndex = 4;
             this.invertSelection.Text = "Invert Selection";
             this.invertSelection.UseVisualStyleBackColor = true;
-            this.invertSelection.Click += new System.EventHandler(this.InvertSelection_Click);
+            this.invertSelection.Click += new System.EventHandler(this.InvertSelectionClick);
             // 
             // checkAll
             // 
@@ -91,7 +91,7 @@
             this.checkAll.TabIndex = 5;
             this.checkAll.Text = "Select All";
             this.checkAll.UseVisualStyleBackColor = true;
-            this.checkAll.Click += new System.EventHandler(this.CheckAll_Click);
+            this.checkAll.Click += new System.EventHandler(this.CheckAllClick);
             // 
             // uncheckAll
             // 
@@ -101,7 +101,7 @@
             this.uncheckAll.TabIndex = 6;
             this.uncheckAll.Text = "Clear Selection";
             this.uncheckAll.UseVisualStyleBackColor = true;
-            this.uncheckAll.Click += new System.EventHandler(this.UncheckAll_Click);
+            this.uncheckAll.Click += new System.EventHandler(this.UncheckAllClick);
             // 
             // menuStrip1
             // 
@@ -129,14 +129,14 @@
             this.addToStartup.Name = "addToStartup";
             this.addToStartup.Size = new System.Drawing.Size(180, 22);
             this.addToStartup.Text = "Add To Startup";
-            this.addToStartup.Click += new System.EventHandler(this.AddToStartup_Click);
+            this.addToStartup.Click += new System.EventHandler(this.AddToStartupClick);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItemClick);
             // 
             // helpToolStripMenuItem
             // 
@@ -151,7 +151,7 @@
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.AboutToolStripMenuItemClick);
             // 
             // MainForm
             // 
@@ -171,7 +171,7 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ReservedCpuSets";
-            this.Load += new System.EventHandler(this.MainForm_Load);
+            this.Load += new System.EventHandler(this.MainFormLoad);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);

@@ -25,7 +25,7 @@
         private void InitializeComponent() {
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.gitHubLink = new System.Windows.Forms.LinkLabel();
             this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -47,16 +47,16 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "Version 0.1.6 64-Bit";
             // 
-            // linkLabel1
+            // gitHubLink
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(12, 79);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(130, 13);
-            this.linkLabel1.TabIndex = 3;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "https://github.com/amitxv";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel1_LinkClicked);
+            this.gitHubLink.AutoSize = true;
+            this.gitHubLink.Location = new System.Drawing.Point(12, 79);
+            this.gitHubLink.Name = "gitHubLink";
+            this.gitHubLink.Size = new System.Drawing.Size(130, 13);
+            this.gitHubLink.TabIndex = 3;
+            this.gitHubLink.TabStop = true;
+            this.gitHubLink.Text = "https://github.com/amitxv";
+            this.gitHubLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.GitHubLinkLinkClicked);
             // 
             // label3
             // 
@@ -73,7 +73,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(234, 108);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.linkLabel1);
+            this.Controls.Add(this.gitHubLink);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
@@ -89,7 +89,7 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel gitHubLink;
         private System.Windows.Forms.Label label3;
     }
 }

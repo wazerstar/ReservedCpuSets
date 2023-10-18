@@ -17,12 +17,12 @@ namespace ReservedCpuSets {
             }
         }
 
-        private void AddToStartup(bool is_enabled) {
-            var entry_assembly = Assembly.GetEntryAssembly();
+        private void AddToStartup(bool isEnabled) {
+            var entryAssembly = Assembly.GetEntryAssembly();
 
             using (var key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true)) {
-                if (is_enabled) {
-                    key.SetValue("ReservedCpuSets", $"\"{entry_assembly.Location}\" --load-cpusets --timeout 10");
+                if (isEnabled) {
+                    key.SetValue("ReservedCpuSets", $"\"{entryAssembly.Location}\" --load-cpusets --timeout 10");
                 } else {
                     try {
                         key.DeleteValue("ReservedCpuSets");
@@ -49,7 +49,7 @@ namespace ReservedCpuSets {
             }
         }
 
-        private void MainForm_Load(object sender, EventArgs e) {
+        private void MainFormLoad(object sender, EventArgs e) {
             for (var i = 0; i < Environment.ProcessorCount; i++) {
                 _ = cpuListBox.Items.Add($"CPU {i}");
             }
@@ -58,10 +58,10 @@ namespace ReservedCpuSets {
 
             var bitmask = SharedFunctions.GetReservedCpuSets();
 
-            var last_bit_index = bitmask.Length - 1;
+            var lastBitIndex = bitmask.Length - 1;
 
             for (var i = 0; i < Environment.ProcessorCount; i++) {
-                cpuListBox.SetItemChecked(i, bitmask[last_bit_index - i] == '1');
+                cpuListBox.SetItemChecked(i, bitmask[lastBitIndex - i] == '1');
             }
 
             if (SharedFunctions.GetWindowsBuildNumber() > 19044) {
@@ -78,7 +78,7 @@ namespace ReservedCpuSets {
             }
         }
 
-        private void SaveButton_Click(object sender, EventArgs e) {
+        private void SaveButtonClick(object sender, EventArgs e) {
             if (IsAllCPUsChecked()) {
                 _ = MessageBox.Show("At least one CPU must be unreserved", "ReservedCpuSets", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -101,36 +101,36 @@ namespace ReservedCpuSets {
                 }
             } else {
                 var bytes = BitConverter.GetBytes(affinity);
-                var padded_bytes = new byte[8];
-                Array.Copy(bytes, 0, padded_bytes, 0, bytes.Length);
+                var paddedBytes = new byte[8];
+                Array.Copy(bytes, 0, paddedBytes, 0, bytes.Length);
 
                 using (var key = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Control\\Session Manager\\kernel", true)) {
-                    key.SetValue("ReservedCpuSets", padded_bytes, RegistryValueKind.Binary);
+                    key.SetValue("ReservedCpuSets", paddedBytes, RegistryValueKind.Binary);
                 }
             }
 
             Environment.Exit(0);
         }
 
-        private void InvertSelection_Click(object sender, EventArgs e) {
+        private void InvertSelectionClick(object sender, EventArgs e) {
             for (var i = 0; i < cpuListBox.Items.Count; i++) {
                 cpuListBox.SetItemChecked(i, !cpuListBox.GetItemChecked(i));
             }
         }
 
-        private void CheckAll_Click(object sender, EventArgs e) {
+        private void CheckAllClick(object sender, EventArgs e) {
             CheckAllCPUs(true);
         }
 
-        private void UncheckAll_Click(object sender, EventArgs e) {
+        private void UncheckAllClick(object sender, EventArgs e) {
             CheckAllCPUs(false);
         }
 
-        private void ExitToolStripMenuItem_Click(object sender, EventArgs e) {
+        private void ExitToolStripMenuItemClick(object sender, EventArgs e) {
             Application.Exit();
         }
 
-        private void AboutToolStripMenuItem_Click(object sender, EventArgs e) {
+        private void AboutToolStripMenuItemClick(object sender, EventArgs e) {
             var about = new AboutForm {
                 StartPosition = FormStartPosition.Manual,
                 Location = Location
@@ -138,7 +138,7 @@ namespace ReservedCpuSets {
             about.Show();
         }
 
-        private void AddToStartup_Click(object sender, EventArgs e) {
+        private void AddToStartupClick(object sender, EventArgs e) {
             AddToStartup(addToStartup.Checked);
         }
     }

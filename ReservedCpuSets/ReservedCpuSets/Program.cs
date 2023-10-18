@@ -27,42 +27,42 @@ namespace ReservedCpuSets {
         private delegate int SetSystemCpuSetDelegate(int mask);
 
         private static int LoadCpuSet() {
-            string bitmask = SharedFunctions.GetReservedCpuSets();
+            var bitmask = SharedFunctions.GetReservedCpuSets();
 
             // bitmask must be inverted because the logic is flipped
-            string inverted_system_bitmask = "";
+            var invertedSystemBitmask = "";
 
-            for (int i = 0; i < bitmask.Length; i++) {
-                inverted_system_bitmask += bitmask[i] == '0' ? 1 : 0;
+            for (var i = 0; i < bitmask.Length; i++) {
+                invertedSystemBitmask += bitmask[i] == '0' ? 1 : 0;
             }
 
-            int system_affinity = Convert.ToInt32(inverted_system_bitmask, 2);
+            var systemAffinity = Convert.ToInt32(invertedSystemBitmask, 2);
 
-            IntPtr module_handle = LoadLibrary("ReservedCpuSets.dll");
+            var moduleHandle = LoadLibrary("ReservedCpuSets.dll");
 
-            if (module_handle == IntPtr.Zero) {
+            if (moduleHandle == IntPtr.Zero) {
                 _ = MessageBox.Show("Failed to apply changes. Could not load ReservedCpuSets.dll", "ReservedCpuSets", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return 1;
             }
 
-            IntPtr func_ptr = GetProcAddress(module_handle, "SetSystemCpuSet");
+            var funcPtr = GetProcAddress(moduleHandle, "SetSystemCpuSet");
 
-            if (func_ptr == IntPtr.Zero) {
+            if (funcPtr == IntPtr.Zero) {
                 _ = MessageBox.Show("Failed to apply changes. GetProcAddress Failed", "ReservedCpuSets", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return 1;
             }
 
 #pragma warning disable IDE1006 // Naming Styles
-            SetSystemCpuSetDelegate SetSystemCpuSet = Marshal.GetDelegateForFunctionPointer<SetSystemCpuSetDelegate>(func_ptr);
+            var SetSystemCpuSet = Marshal.GetDelegateForFunctionPointer<SetSystemCpuSetDelegate>(funcPtr);
 #pragma warning restore IDE1006 // Naming Styles
 
             // all CPUs = 0 rather than all bits set to 1
-            if (SetSystemCpuSet(Convert.ToInt32(bitmask) == 0 ? 0 : system_affinity) != 0) {
+            if (SetSystemCpuSet(Convert.ToInt32(bitmask) == 0 ? 0 : systemAffinity) != 0) {
                 _ = MessageBox.Show("Failed to apply changes. Could not apply system-wide CPU set", "ReservedCpuSets", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return 1;
             }
 
-            _ = FreeLibrary(module_handle);
+            _ = FreeLibrary(moduleHandle);
 
             return 0;
         }
