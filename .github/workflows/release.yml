@@ -32,7 +32,7 @@ jobs:
           move .\ReservedCpuSets\ReservedCpuSets\bin\x64\Release\ReservedCpuSets.exe release\ReservedCpuSets
           move .\ReservedCpuSetsDLL\x64\Release\ReservedCpuSets.dll release\ReservedCpuSets
 
-      - name: Zip limit-nvpstate
+      - name: Zip release
         run: Compress-Archive -Path release\ReservedCpuSets -DestinationPath ReservedCpuSets.zip
 
       - name: Upload to release
