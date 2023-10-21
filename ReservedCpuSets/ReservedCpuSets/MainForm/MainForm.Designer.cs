@@ -59,9 +59,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(9, 29);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(235, 26);
+            this.label1.Size = new System.Drawing.Size(220, 26);
             this.label1.TabIndex = 1;
-            this.label1.Text = "The reserved CPUs setting controls which CPUs\r\n not to schedule tasks on";
+            this.label1.Text = "The reserved CPUs setting hints which CPUs\r\n not to schedule tasks on";
             // 
             // saveButton
             // 
@@ -127,14 +127,14 @@
             // 
             this.addToStartup.CheckOnClick = true;
             this.addToStartup.Name = "addToStartup";
-            this.addToStartup.Size = new System.Drawing.Size(180, 22);
+            this.addToStartup.Size = new System.Drawing.Size(152, 22);
             this.addToStartup.Text = "Add To Startup";
             this.addToStartup.Click += new System.EventHandler(this.AddToStartupClick);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItemClick);
             // 
