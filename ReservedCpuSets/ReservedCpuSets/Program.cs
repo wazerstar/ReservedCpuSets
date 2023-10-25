@@ -6,14 +6,6 @@ using System.Threading;
 using System.Windows.Forms;
 
 namespace ReservedCpuSets {
-    public class Options {
-        [Option("timeout")]
-        public int Timeout { get; set; }
-
-        [Option("load-cpusets")]
-        public bool LoadCpuSets { get; set; }
-    }
-
     internal static class Program {
         [DllImport("kernel32.dll")]
         private static extern IntPtr LoadLibrary(string lpLibFileName);
