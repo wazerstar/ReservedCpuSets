@@ -202,6 +202,7 @@
     <Compile Include="AboutForm\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Options.cs" />
     <Compile Include="SharedFunctions.cs" />
     <Compile Include="MainForm\MainForm.cs">
       <SubType>Form</SubType>
