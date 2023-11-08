@@ -19,7 +19,7 @@ namespace ReservedCpuSets {
                     Array.Reverse(currentConfig); // big to little endian
                     var hexString = BitConverter.ToString(currentConfig).Replace("-", "");
                     // convert to binary
-                    bitmask = Convert.ToString(Convert.ToInt32(hexString, 16), 2);
+                    bitmask = Convert.ToString(Convert.ToInt64(hexString, 16), 2);
                 } catch (ArgumentException) {
                     bitmask = "";
                 }

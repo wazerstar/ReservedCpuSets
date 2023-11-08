@@ -16,7 +16,7 @@ namespace ReservedCpuSets {
         [DllImport("kernel32.dll")]
         private static extern IntPtr GetProcAddress(IntPtr hModule, string lpProcName);
 
-        private delegate int SetSystemCpuSetDelegate(int mask);
+        private delegate int SetSystemCpuSetDelegate(ulong mask);
 
         private static int LoadCpuSet() {
             var bitmask = SharedFunctions.GetReservedCpuSets();
@@ -28,7 +28,7 @@ namespace ReservedCpuSets {
                 invertedSystemBitmask += bitmask[i] == '0' ? 1 : 0;
             }
 
-            var systemAffinity = Convert.ToInt32(invertedSystemBitmask, 2);
+            var systemAffinity = Convert.ToUInt64(invertedSystemBitmask, 2);
 
             var moduleHandle = LoadLibrary("ReservedCpuSets.dll");
 
@@ -49,7 +49,7 @@ namespace ReservedCpuSets {
 #pragma warning restore IDE1006 // Naming Styles
 
             // all CPUs = 0 rather than all bits set to 1
-            if (SetSystemCpuSet(Convert.ToInt32(bitmask) == 0 ? 0 : systemAffinity) != 0) {
+            if (SetSystemCpuSet(Convert.ToUInt64(bitmask) == 0 ? 0 : systemAffinity) != 0) {
                 _ = MessageBox.Show("Failed to apply changes. Could not apply system-wide CPU set", "ReservedCpuSets", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return 1;
             }

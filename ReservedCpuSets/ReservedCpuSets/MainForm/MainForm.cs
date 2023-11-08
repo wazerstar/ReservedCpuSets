@@ -84,10 +84,10 @@ namespace ReservedCpuSets {
                 return;
             }
 
-            var affinity = 0;
+            ulong affinity = 0;
 
             foreach (int i in cpuListBox.CheckedIndices) {
-                affinity |= 1 << i;
+                affinity |= (ulong)1 << i;
             }
 
             if (affinity == 0) {

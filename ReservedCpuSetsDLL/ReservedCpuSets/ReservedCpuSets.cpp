@@ -67,7 +67,7 @@ int SetPrivilege(HANDLE hToken, PCTSTR lpszPrivilege, bool bEnablePrivilege) {
     return 0;
 }
 
-extern "C" __declspec(dllexport) int SetSystemCpuSet(int mask) {
+extern "C" __declspec(dllexport) int SetSystemCpuSet(unsigned long mask) {
     std::string str = std::to_string(mask);
     const char* affinity = str.c_str();
 
