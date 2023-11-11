@@ -99,6 +99,10 @@ namespace ReservedCpuSets {
                         // ignore error if the key does not exist
                     }
                 }
+
+                if (IsAddedToStartup()) {
+                    AddToStartup(false);
+                }
             } else {
                 var bytes = BitConverter.GetBytes(affinity);
                 var paddedBytes = new byte[8];
