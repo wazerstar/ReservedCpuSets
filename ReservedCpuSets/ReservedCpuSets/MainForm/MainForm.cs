@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -144,6 +145,10 @@ namespace ReservedCpuSets {
 
         private void AddToStartupClick(object sender, EventArgs e) {
             AddToStartup(addToStartup.Checked);
+        }
+
+        private void DonateToolStripMenuItem_Click(object sender, EventArgs e) {
+            _ = Process.Start("https://www.buymeacoffee.com/amitxv");
         }
     }
 }
