@@ -1,12 +1,15 @@
 ﻿using CommandLine;
 
 using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 
 namespace ReservedCpuSets {
     internal static class Program {
+        public static Version Version = Assembly.GetExecutingAssembly().GetName().Version;
+
         [DllImport("kernel32.dll")]
         private static extern IntPtr LoadLibrary(string lpLibFileName);
 
