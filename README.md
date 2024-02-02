@@ -2,6 +2,8 @@
 
 ![program-screenshot.png](./img/program-screenshot.png)
 
+[![Downloads](https://img.shields.io/github/downloads/amitxv/ReservedCpuSets/total.svg)](https://github.com/amitxv/ReservedCpuSets/releases)
+
 [![Buy Me A Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/amitxv)
 
 This is an extension of the [WindowsIoT CSP Soft Real-Time Performance](https://learn.microsoft.com/en-us/windows/iot/iot-enterprise/soft-real-time/soft-real-time-device#use-mdm-bridge-wmi-provider-to-configure-the-windowsiot-csp) configuration and assumes you have read the documentation. ``SetRTCores`` essentially prevents interrupts and tasks from being scheduled on reserved cores so that you can isolate real-time applications from user and kernel-level disturbances by configuring affinity policies.
