@@ -101,6 +101,7 @@ namespace ReservedCpuSets {
                     }
                 }
 
+                // since there are no changes to apply at startup, the program can be removed from starting at boot
                 if (IsAddedToStartup()) {
                     AddToStartup(false);
                 }
