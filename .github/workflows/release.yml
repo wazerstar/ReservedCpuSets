@@ -1,8 +1,14 @@
 name: Create release
 
 on:
-  release:
-    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version of ReservedCpuSets to build (e.g. 1.0.0). This will be used for the tag and release name."
+        required: true
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -32,7 +38,10 @@ jobs:
       - name: Zip release
         run: Compress-Archive -Path release\ReservedCpuSets -DestinationPath ReservedCpuSets.zip
 
-      - name: Upload to release
-        uses: softprops/action-gh-release@v1
+      - name: Create release
+        uses: ncipollo/release-action@v1
         with:
-          files: ReservedCpuSets.zip
+          tag: ${{ inputs.version }}
+          name: ReservedCpuSets v${{ inputs.version }}
+          artifacts: ReservedCpuSets.zip
+          generateReleaseNotes: true
