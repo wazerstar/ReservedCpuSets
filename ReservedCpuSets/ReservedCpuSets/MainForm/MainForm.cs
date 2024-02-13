@@ -13,7 +13,7 @@ namespace ReservedCpuSets {
         }
 
         private bool IsAddedToStartup() {
-            using (var key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run")) {
+            using (var key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Run")) {
                 return key.GetValue("ReservedCpuSets") != null;
             }
         }
@@ -21,7 +21,7 @@ namespace ReservedCpuSets {
         private void AddToStartup(bool isEnabled) {
             var entryAssembly = Assembly.GetEntryAssembly();
 
-            using (var key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true)) {
+            using (var key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Run", true)) {
                 if (isEnabled) {
                     key.SetValue("ReservedCpuSets", $"\"{entryAssembly.Location}\" --load-cpusets --timeout 10");
                 } else {
