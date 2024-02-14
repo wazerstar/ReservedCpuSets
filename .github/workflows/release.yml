@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Version of ReservedCpuSets to build (e.g. 1.0.0). This will be used for the tag and release name."
+        description: "Version of the program to build. This will be used for the tag and release name."
         required: true
 
 permissions:
