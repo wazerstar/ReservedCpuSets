@@ -1,6 +1,6 @@
 # ReservedCpuSets
 
-![program-screenshot.png](./img/program-screenshot.png)
+![program-screenshot.png](/assets/img/program-screenshot.png)
 
 [![Downloads](https://img.shields.io/github/downloads/amitxv/ReservedCpuSets/total.svg)](https://github.com/amitxv/ReservedCpuSets/releases)
 
@@ -48,7 +48,7 @@ Adding support for earlier versions of Windows 10 involves utilizing [NtSetSyste
 
 Since the registry value originates from an affinity bitmask, I have confirmed that it can be customized instead of the configuration being limited to the last N consecutive cores. Below is an example of ``10101010``.
 
-![custom-bitmask.png](./img/custom-bitmask.png)
+![custom-bitmask.png](/assets/img/custom-bitmask.png)
 
 ## Reverting the Changes
 
