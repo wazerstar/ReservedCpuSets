@@ -31,19 +31,11 @@ jobs:
       - name: Install packages
         run: nuget restore .\ReservedCpuSets\ReservedCpuSets.sln
 
-      - name: Build executable
-        run: |
-          MSBuild.exe .\ReservedCpuSets\ReservedCpuSets.sln -p:Configuration=Release -p:Platform=x64
-          MSBuild.exe .\ReservedCpuSetsDLL\ReservedCpuSets.sln -p:Configuration=Release -p:Platform=x64
-
-      - name: Create folder structure
-        run: |
-          mkdir release\ReservedCpuSets
-          move .\ReservedCpuSets\ReservedCpuSets\bin\x64\Release\ReservedCpuSets.exe release\ReservedCpuSets
-          move .\ReservedCpuSetsDLL\x64\Release\ReservedCpuSets.dll release\ReservedCpuSets
+      - name: Build
+        run: .\build.ps1
 
       - name: Zip release
-        run: Compress-Archive -Path release\ReservedCpuSets -DestinationPath ReservedCpuSets.zip
+        run: Compress-Archive -Path build\ReservedCpuSets -DestinationPath ReservedCpuSets.zip
 
       - name: Create release
         uses: ncipollo/release-action@v1
