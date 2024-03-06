@@ -12,8 +12,8 @@ function main() {
     New-Item -ItemType Directory -Path ".\build\ReservedCpuSets\"
 
     # create final package
-    Move-Item ".\ReservedCpuSets\ReservedCpuSets\bin\x64\Release\ReservedCpuSets.exe" ".\build\ReservedCpuSets\"
-    Move-Item ".\ReservedCpuSetsDLL\x64\Release\ReservedCpuSets.dll" ".\build\ReservedCpuSets\"
+    Copy-Item ".\ReservedCpuSets\ReservedCpuSets\bin\x64\Release\ReservedCpuSets.exe" ".\build\ReservedCpuSets\"
+    Copy-Item ".\ReservedCpuSetsDLL\x64\Release\ReservedCpuSets.dll" ".\build\ReservedCpuSets\"
 
     return 0
 }
