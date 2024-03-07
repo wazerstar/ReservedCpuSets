@@ -1,4 +1,14 @@
+function Is-Admin() {
+    $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+    return $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+}
+
 function main() {
+    if (-not (Is-Admin)) {
+        Write-Host "error: administrator privileges required"
+        return 1
+    }
+
     # build application
     MSBuild.exe ".\ReservedCpuSets\ReservedCpuSets.sln" -p:Configuration=Release -p:Platform=x64
     # build DLL
