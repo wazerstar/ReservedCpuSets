@@ -5,7 +5,7 @@ function main() {
     MSBuild.exe ".\ReservedCpuSetsDLL\ReservedCpuSets.sln" -p:Configuration=Release -p:Platform=x64
 
     if (Test-Path ".\build\") {
-        Remove-Item -Path ".\build\" -Recurse
+        Remove-Item -Path ".\build\" -Recurse -Force
     }
 
     # create folder structure
