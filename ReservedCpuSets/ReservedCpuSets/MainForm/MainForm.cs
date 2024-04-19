@@ -141,7 +141,7 @@ namespace ReservedCpuSets {
                 StartPosition = FormStartPosition.Manual,
                 Location = Location
             };
-            about.Show();
+            _ = about.ShowDialog();
         }
 
         private void AddToStartupClick(object sender, EventArgs e) {
