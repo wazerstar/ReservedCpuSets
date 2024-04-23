@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ReservedCpuSets.cpp">
+    <ClCompile Include="ReservedCpuSetsDLL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
